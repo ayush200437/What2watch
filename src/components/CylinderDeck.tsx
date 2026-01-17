@@ -21,8 +21,9 @@ export default function CylinderDeck({ items, onClose, onSwipe }: CylinderDeckPr
     const [showDetails, setShowDetails] = useState<ContentItem | null>(null);
 
     // Physics for rotation
+    // Physics for rotation (tuned for "buttery" feel)
     const rotation = useMotionValue(0);
-    const smoothRotation = useSpring(rotation, { damping: 20, stiffness: 150, mass: 1 });
+    const smoothRotation = useSpring(rotation, { damping: 25, stiffness: 120, mass: 0.8 });
 
     // Calculate 3D geometry
     // Radius needs to accommodate all cards in a circle without overlap
@@ -129,6 +130,7 @@ export default function CylinderDeck({ items, onClose, onSwipe }: CylinderDeckPr
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
+                        willChange: 'transform', // Hardware acceleration hint
                     }}
                     drag="x"
                     dragElastic={0.1}

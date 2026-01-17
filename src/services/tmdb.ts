@@ -2,7 +2,7 @@ import type { ContentItem, Mood, Language } from '../data/db';
 
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 const BASE_URL = 'https://api.themoviedb.org/3';
-const IMAGE_BASE = 'https://image.tmdb.org/t/p/w780';
+const IMAGE_BASE = 'https://image.tmdb.org/t/p/w500';
 
 // Mapping Moods to TMDB Genre IDs
 const MOOD_GENRES: Record<Mood, number[]> = {
