@@ -147,10 +147,9 @@ export default function CylinderDeck({ items, onClose, onSwipe }: CylinderDeckPr
                         justifyContent: 'center',
                         willChange: 'transform', // Hardware acceleration hint
                     }}
-                    drag="x"
-                    dragElastic={0.1}
-                    onDrag={handleDrag}
-                    onDragEnd={handleDragEnd}
+                    onPan={handleDrag}
+                    onPanEnd={handleDragEnd}
+                    className="touch-none" // Prevent scroll on mobile while spinning
                 >
                     {items.map((item, index) => {
                         const style = getCardStyle(index);
