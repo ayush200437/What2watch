@@ -103,39 +103,39 @@ export default function HomePage({ onStartMatch }: { onStartMatch?: () => void }
             <Background />
 
             {/* Header */}
-            <header className="p-6 flex justify-between items-center glass sticky top-0 z-50 bg-background/80">
+            <header className="p-4 md:p-6 flex justify-between items-center glass sticky top-0 z-50 bg-background/80 transition-all">
                 <div>
-                    <h1 className="text-2xl font-bold">Hi, {user?.name} 👋</h1>
-                    <p className="text-gray-400 text-sm">What's the vibe tonight?</p>
+                    <h1 className="text-xl md:text-2xl font-bold">Hi, {user?.name} 👋</h1>
+                    <p className="text-gray-400 text-xs md:text-sm">What's the vibe tonight?</p>
                 </div>
 
-                <div className="flex gap-3">
+                <div className="flex gap-2 md:gap-3">
                     {/* Match Mode Button */}
                     <button
                         onClick={onStartMatch}
-                        className="p-3 bg-pink-500/20 border border-pink-500/50 rounded-full hover:bg-pink-500 hover:text-white transition-all text-pink-500 flex items-center gap-2"
+                        className="p-2 md:p-3 bg-pink-500/20 border border-pink-500/50 rounded-full hover:bg-pink-500 hover:text-white transition-all text-pink-500 flex items-center gap-2"
                         title="Match Mode"
                     >
-                        <Users size={20} />
+                        <Users size={18} className="md:w-5 md:h-5" />
                         <span className="hidden md:inline font-bold text-xs">Match</span>
                     </button>
 
                     {/* Social / Chat Toggle */}
                     <button
                         onClick={() => setShowSocial(true)}
-                        className="p-3 bg-white/5 rounded-full hover:bg-white/10 transition-colors text-white"
+                        className="p-2 md:p-3 bg-white/5 rounded-full hover:bg-white/10 transition-colors text-white"
                     >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 6.1H3" /><path d="M21 12.1H3" /><path d="M15.1 18H3" /></svg>
+                        <svg className="w-5 h-5 md:w-6 md:h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 6.1H3" /><path d="M21 12.1H3" /><path d="M15.1 18H3" /></svg>
                     </button>
 
                     {/* Watchlist Toggle */}
                     <button
                         onClick={() => setShowWatchlist(true)}
-                        className="p-3 bg-white/5 rounded-full hover:bg-white/10 transition-colors relative"
+                        className="p-2 md:p-3 bg-white/5 rounded-full hover:bg-white/10 transition-colors relative"
                     >
-                        <MessageCircle className="w-6 h-6 text-white" />
+                        <MessageCircle className="w-5 h-5 md:w-6 md:h-6 text-white" />
                         {watchlist.length > 0 && (
-                            <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full text-xs flex items-center justify-center font-bold">
+                            <span className="absolute -top-1 -right-1 w-4 h-4 md:w-5 md:h-5 bg-red-500 rounded-full text-[10px] md:text-xs flex items-center justify-center font-bold">
                                 {watchlist.length}
                             </span>
                         )}

@@ -11,7 +11,6 @@ interface CylinderDeckProps {
     onSwipe?: (item: ContentItem, dir: 'like' | 'nope') => void;
 }
 
-const CARD_WIDTH = 260; // Slightly narrower for better cylinder density
 const GAP = 20;
 
 export default function CylinderDeck({ items, onClose, onSwipe }: CylinderDeckProps) {
@@ -20,18 +19,34 @@ export default function CylinderDeck({ items, onClose, onSwipe }: CylinderDeckPr
     const [activeIndex, setActiveIndex] = useState(0);
     const [showDetails, setShowDetails] = useState<ContentItem | null>(null);
 
-    // Physics for rotation
+    // Responsive sizing
+    const [cardWidth, setCardWidth] = useState(260);
+    const [radius, setRadius] = useState(400);
+
+    useEffect(() => {
+        const handleResize = () => {
+            const isMobile = window.innerWidth < 640;
+            const newCardWidth = isMobile ? 220 : 260;
+            setCardWidth(newCardWidth);
+
+            const count = items.length;
+            // Tighter radius on mobile for more "wrap" feel
+            const minRadius = isMobile ? 250 : 400;
+            const newRadius = Math.max((count * (newCardWidth + GAP)) / (2 * Math.PI), minRadius);
+            setRadius(newRadius);
+        };
+
+        handleResize(); // Init
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, [items.length]);
+
+    const count = items.length;
+    const anglePerCard = 360 / count;
+
     // Physics for rotation (tuned for "buttery" feel)
     const rotation = useMotionValue(0);
     const smoothRotation = useSpring(rotation, { damping: 25, stiffness: 120, mass: 0.8 });
-
-    // Calculate 3D geometry
-    // Radius needs to accommodate all cards in a circle without overlap
-    // Circumference = Count * (Width + Gap)
-    // Radius = Circumference / (2 * PI)
-    const count = items.length;
-    const radius = Math.max((count * (CARD_WIDTH + GAP)) / (2 * Math.PI), 400); // Min radius to avoid cramping
-    const anglePerCard = 360 / count;
 
     // Handle Drag
     const handleDrag = (_: any, info: PanInfo) => {
@@ -156,8 +171,12 @@ export default function CylinderDeck({ items, onClose, onSwipe }: CylinderDeckPr
                         return (
                             <div
                                 key={item.id}
-                                className="absolute top-1/2 left-1/2 -ml-[130px] -mt-[195px] w-[260px] h-[390px] rounded-2xl overflow-hidden shadow-2xl backface-hidden transition-all duration-300"
+                                className="absolute top-1/2 left-1/2 rounded-2xl overflow-hidden shadow-2xl backface-hidden transition-all duration-300"
                                 style={{
+                                    width: `${cardWidth}px`,
+                                    height: `${cardWidth * 1.5}px`, // Maintain aspect ratio
+                                    marginLeft: `-${cardWidth / 2}px`,
+                                    marginTop: `-${(cardWidth * 1.5) / 2}px`,
                                     transform: `${style.transform}`,
                                     // Make inactive cards slightly dimmer
                                     filter: isActive ? 'brightness(1.1) drop-shadow(0 0 20px rgba(255,0,0,0.3))' : 'brightness(0.6)',
